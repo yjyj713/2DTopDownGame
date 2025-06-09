@@ -5,7 +5,6 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public float rotateSpeed = 180f;
-
     private Transform center;
 
     public void Init(Transform target)

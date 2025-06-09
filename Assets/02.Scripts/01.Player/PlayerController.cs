@@ -4,14 +4,16 @@ using UnityEngine.InputSystem;
 public class PlayerController : BaseController
 {
     [SerializeField] private GameObject weaponPrefab;
+    [SerializeField] private Transform weaponHolder;
 
     private PlayerControls playerControls;
     private Vector2 movement;
 
     private void Start()
     {
-        GameObject weapon = Instantiate(weaponPrefab, transform.position + Vector3.right, Quaternion.identity);
-        weapon.GetComponent<Weapon>().Init(transform);
+        Vector3 offset = new Vector3(1, 0, 0);
+        GameObject weapon = Instantiate(weaponPrefab, weaponHolder.position + offset, Quaternion.identity, weaponHolder);
+        weapon.transform.localPosition = new Vector3(2f, 0f, 0f);
     }
 
     protected override void Awake()

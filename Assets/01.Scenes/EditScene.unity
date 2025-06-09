@@ -123,6 +123,46 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &360323777 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5710160648051379239, guid: 1a3f9b5a89abe8a4e85f317dd9f783c1, type: 3}
+  m_PrefabInstance: {fileID: 3116405088894558002}
+  m_PrefabAsset: {fileID: 0}
+--- !u!58 &360323784
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360323777}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &1009738091
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,7 +310,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5710160648051379239, guid: 1a3f9b5a89abe8a4e85f317dd9f783c1, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 360323784}
   m_SourcePrefab: {fileID: 100100000, guid: 1a3f9b5a89abe8a4e85f317dd9f783c1, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
