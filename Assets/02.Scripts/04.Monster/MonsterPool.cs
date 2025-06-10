@@ -6,6 +6,7 @@ public class MonsterPool : MonoBehaviour
     public static MonsterPool Instance;
 
     private Dictionary<string, GameObject> prefabDict = new();
+    private readonly Dictionary<string, Queue<MonsterController>> poolDict = new();
 
     private void Awake()
     {
@@ -21,18 +22,39 @@ public class MonsterPool : MonoBehaviour
 
     public MonsterController SpawnMonster(string monsterId, Vector3 spawnPos, Transform player)
     {
-        string path = $"Prefabs/Monsters/{monsterId}";
-        GameObject prefab = Resources.Load<GameObject>(path);
+        MonsterController controller;
 
-        if (prefab == null)
+        if (!poolDict.ContainsKey(monsterId))
+            poolDict[monsterId] = new Queue<MonsterController>();
+
+        if (poolDict[monsterId].Count > 0)
         {
-            Debug.LogError($"[MonsterPool] Resources.Load 실패: {path} 경로에 프리팹이 없음");
-            return null;
+            controller = poolDict[monsterId].Dequeue();
+            controller.gameObject.SetActive(true);
+            controller.transform.position = spawnPos;
+            controller.Init(MonsterDataLoader.MonsterDict[monsterId], player, false);
+        }
+        else
+        {
+            GameObject prefab = Resources.Load<GameObject>($"Prefabs/Monsters/{monsterId}");
+            if (prefab == null)
+            {
+                Debug.LogError($"[MonsterPool] Resources.Load 실패: {monsterId} 프리팹 없음");
+                return null;
+            }
+
+            GameObject go = Instantiate(prefab, spawnPos, Quaternion.identity);
+            controller = go.GetComponent<MonsterController>();
+            controller.Init(MonsterDataLoader.MonsterDict[monsterId], player, true);
         }
 
-        GameObject go = Instantiate(prefab, spawnPos, Quaternion.identity);
-        MonsterController controller = go.GetComponent<MonsterController>();
-        controller.Init(MonsterDataLoader.MonsterDict[monsterId], player);
         return controller;
     }
+    public void ReturnToPool(MonsterController monster)
+    {
+        string monsterId = monster.Data.MonsterID;
+        monster.gameObject.SetActive(false);
+        poolDict[monsterId].Enqueue(monster);
+    }
+
 }
