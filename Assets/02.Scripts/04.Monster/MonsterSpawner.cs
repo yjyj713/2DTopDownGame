@@ -1,5 +1,5 @@
-using System.Linq;
 using UnityEngine;
+using System.Linq;
 
 public class MonsterSpawner : MonoBehaviour
 {
@@ -12,15 +12,15 @@ public class MonsterSpawner : MonoBehaviour
 
     private void Spawn()
     {
-        Vector3 pos = player.position + (Vector3)(Random.insideUnitCircle * 3f);
+        var keys = MonsterDataLoader.MonsterDict.Keys
+            .Where(k => Resources.Load<GameObject>($"Prefabs/Monsters/{k}") != null)
+            .ToList();
 
-        string monsterId = GetRandomMonsterID();
-        MonsterPool.Instance.SpawnMonster(monsterId, pos, player);
-    }
+        if (keys.Count == 0) return;
 
-    public static string GetRandomMonsterID()
-    {
-        var keys = MonsterDataLoader.MonsterDict.Keys.ToList();
-        return keys[Random.Range(0, keys.Count)];
+        string randomID = keys[Random.Range(0, keys.Count)];
+        Vector3 pos = player.position + (Vector3)(Random.insideUnitCircle * 4f);
+
+        MonsterPool.Instance.SpawnMonster(randomID, pos, player);
     }
 }

@@ -1,40 +1,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[DefaultExecutionOrder(-100)] 
+[DefaultExecutionOrder(-100)]
 public class MonsterDataLoader : MonoBehaviour
 {
-
     public static Dictionary<string, MonsterData> MonsterDict { get; private set; }
-
-    [System.Serializable]
-    private class MonsterDataWrapper
-    {
-        public List<MonsterData> Monster;
-    }
 
     private void Awake()
     {
-        TextAsset ta = Resources.Load<TextAsset>("Data/Monster");
-        if (ta == null)
-        {
-            Debug.LogError("Resources/Data/Monster.json을 못찾음");
-            return;
-        }
-
-        MonsterDataWrapper wrap = JsonUtility.FromJson<MonsterDataWrapper>(ta.text);
-        if (wrap == null || wrap.Monster == null)
-        {
-            Debug.LogError("Monster.json 포맷이 MonsterDataWrapper와 맞지않음");
-            return;
-        }
-
+        TextAsset json = Resources.Load<TextAsset>("Data/Monster");
+        MonsterList wrapper = JsonUtility.FromJson<MonsterList>(json.text);
         MonsterDict = new Dictionary<string, MonsterData>();
-        foreach (var m in wrap.Monster)
+
+        foreach (var data in wrapper.Monster)
         {
-            MonsterDict[m.MonsterID] = m;
+            if (!MonsterDict.ContainsKey(data.MonsterID))
+                MonsterDict.Add(data.MonsterID, data);
         }
 
-        Debug.Log($"몬스터 데이터 {MonsterDict.Count}개 로딩 완료!");
+        Debug.Log($"몬스터 데이터 {MonsterDict.Count}개 로딩 완료");
     }
+}
+
+[System.Serializable]
+public class MonsterList
+{
+    public List<MonsterData> Monster;
 }

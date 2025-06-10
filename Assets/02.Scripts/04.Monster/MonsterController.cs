@@ -1,40 +1,23 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class MonsterController : BaseController
 {
     private Transform player;
     private MonsterData data;
     private int currentHp;
-    private SpriteRenderer spriteRenderer;
 
-    private void Awake()
-    {
-        base.Awake();
-
-        spriteRenderer = transform.Find("MainSprite").GetComponent<SpriteRenderer>();
-    }
+    //private void Awake()
+    //{
+    //    base.Awake();
+    //}
 
     public void Init(MonsterData monsterData, Transform playerTransform)
     {
         data = monsterData;
         player = playerTransform;
 
-        // 데이터 적용
         moveSpeed = data.MoveSpeed;
         currentHp = data.MaxHP;
-
-        // 스프라이트 설정
-        string spriteName = GetSpriteName(data.MonsterID);
-        var sprite = Resources.Load<Sprite>($"Sprites/Monsters/{spriteName}");
-        if (sprite != null)
-        {
-            spriteRenderer.sprite = sprite;
-        }
-        else
-        {
-            Debug.LogError($"스프라이트 {spriteName} 못 찾음");
-        }
     }
 
     private void Update()
@@ -53,19 +36,7 @@ public class MonsterController : BaseController
         if (currentHp <= 0)
         {
             Die();
-            gameObject.SetActive(false); // 풀링이면 SetActive(false), 아니면 Destroy(gameObject);
+            Destroy(gameObject); // 풀링 쓰고 싶으면 SetActive(false)
         }
-    }
-
-    private string GetSpriteName(string monsterID)
-    {
-        return monsterID switch
-        {
-            "M0001" => "skeleton",
-            "M0002" => "orc",
-            "M0003" => "bat",
-            "M0004" => "slime",
-            _ => "default_monster"
-        };
     }
 }

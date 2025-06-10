@@ -5,35 +5,34 @@ public class MonsterPool : MonoBehaviour
 {
     public static MonsterPool Instance;
 
-    [SerializeField] private GameObject monsterPrefab;
-
-    private Queue<MonsterController> pool = new();
+    private Dictionary<string, GameObject> prefabDict = new();
 
     private void Awake()
     {
         Instance = this;
-        for (int i = 0; i < 10; i++)
+
+        GameObject[] prefabs = Resources.LoadAll<GameObject>("Prefabs/Monsters");
+        foreach (var prefab in prefabs)
         {
-            var go = Instantiate(monsterPrefab, transform);
-            go.SetActive(false);
-            pool.Enqueue(go.GetComponent<MonsterController>());
+            string id = prefab.name;
+            prefabDict[id] = prefab;
         }
     }
 
     public MonsterController SpawnMonster(string monsterId, Vector3 spawnPos, Transform player)
     {
-        if (pool.Count == 0) return null;
+        string path = $"Prefabs/Monsters/{monsterId}";
+        GameObject prefab = Resources.Load<GameObject>(path);
 
-        var monster = pool.Dequeue();
-        monster.gameObject.SetActive(true);
-        monster.transform.position = spawnPos;
-        monster.Init(MonsterDataLoader.MonsterDict[monsterId], player);
-        return monster;
-    }
+        if (prefab == null)
+        {
+            Debug.LogError($"[MonsterPool] Resources.Load 실패: {path} 경로에 프리팹이 없음");
+            return null;
+        }
 
-    public void ReturnToPool(MonsterController monster)
-    {
-        monster.gameObject.SetActive(false);
-        pool.Enqueue(monster);
+        GameObject go = Instantiate(prefab, spawnPos, Quaternion.identity);
+        MonsterController controller = go.GetComponent<MonsterController>();
+        controller.Init(MonsterDataLoader.MonsterDict[monsterId], player);
+        return controller;
     }
 }
