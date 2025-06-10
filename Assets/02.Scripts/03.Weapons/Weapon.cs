@@ -21,6 +21,8 @@ public class Weapon : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log($"Trigger ¹ß»ý: {collision.name}, Tag: {collision.tag}");
+
         if (collision.CompareTag("Enemy"))
         {
             Debug.Log("Enemy Hit!");
