@@ -1,10 +1,17 @@
 [System.Serializable]
 public class MonsterData
 {
-    public string id;
-    public string name;
-    public int maxHp;
-    public float moveSpeed;
-    public float attackRange;
-    public string spriteName;
+    public string MonsterID;
+    public string Name;
+    public string Description;
+    public int Attack;
+    public float AttackMul;
+    public int MaxHP;
+    public float AttackRange;
+    public float AttackRangeMul;
+    public float AttackSpeed;
+    public float MoveSpeed;
+    public int MinExp;
+    public int MaxExp;
+    public int DropItem;
 }
