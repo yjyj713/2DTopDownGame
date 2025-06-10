@@ -1,10 +1,19 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MonsterController : BaseController
 {
     private Transform player;
     private MonsterData data;
     private int currentHp;
+    private SpriteRenderer spriteRenderer;
+
+    private void Awake()
+    {
+        base.Awake();
+
+        spriteRenderer = transform.Find("MainSprite").GetComponent<SpriteRenderer>();
+    }
 
     public void Init(MonsterData monsterData, Transform playerTransform)
     {
@@ -16,12 +25,16 @@ public class MonsterController : BaseController
         currentHp = data.MaxHP;
 
         // 스프라이트 설정
-        string spriteName = GetSpriteName(data.MonsterID); // ID → 스프라이트명 변환
-        Sprite sprite = Resources.Load<Sprite>($"Sprites/Monsters/{spriteName}");
+        string spriteName = GetSpriteName(data.MonsterID);
+        var sprite = Resources.Load<Sprite>($"Sprites/Monsters/{spriteName}");
         if (sprite != null)
+        {
             spriteRenderer.sprite = sprite;
+        }
         else
-            Debug.LogWarning($"스프라이트 로드 실패: {spriteName}");
+        {
+            Debug.LogError($"스프라이트 {spriteName} 못 찾음");
+        }
     }
 
     private void Update()

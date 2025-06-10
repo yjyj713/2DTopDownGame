@@ -14,6 +14,8 @@ public class BaseController : MonoBehaviour
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        if (rb == null) Debug.LogError($"{name}¿¡ Rigidbody2D ¾øÀ½");
+
         animationHandler = GetComponentInChildren<AnimationHandler>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }

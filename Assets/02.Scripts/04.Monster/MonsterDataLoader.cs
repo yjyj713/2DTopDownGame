@@ -18,14 +18,14 @@ public class MonsterDataLoader : MonoBehaviour
         TextAsset ta = Resources.Load<TextAsset>("Data/Monster");
         if (ta == null)
         {
-            Debug.LogError("Resources/Data/Monster.json을 못찾았어요");
+            Debug.LogError("Resources/Data/Monster.json을 못찾음");
             return;
         }
 
         MonsterDataWrapper wrap = JsonUtility.FromJson<MonsterDataWrapper>(ta.text);
         if (wrap == null || wrap.Monster == null)
         {
-            Debug.LogError("Monster.json 포맷이 MonsterDataWrapper와 맞지않습니다.");
+            Debug.LogError("Monster.json 포맷이 MonsterDataWrapper와 맞지않음");
             return;
         }
 
