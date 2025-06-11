@@ -6,7 +6,6 @@ public class MonsterController : BaseController
 {
     [SerializeField] private GameObject healthBarPrefab;
 
-    private float attackCooldown = 1.0f;
     private float lastAttackTime;
 
     private Transform player;
@@ -58,7 +57,6 @@ public class MonsterController : BaseController
             }
         }
 
-        moveSpeed = data.MoveSpeed;
 
         // 슬라이더 값 설정
         healthSlider.maxValue = data.MaxHP;
@@ -73,20 +71,24 @@ public class MonsterController : BaseController
         if (isDead || player == null) return;
 
         Vector2 dir = player.position - transform.position;
-        float distanceToPlayer = dir.magnitude;
 
-        Move(dir.normalized);
+        float distanceToPlayer = dir.magnitude;
 
         float distance = Vector2.Distance(transform.position, player.position);
 
         if (distanceToPlayer <= data.AttackRange)
         {
-            Debug.Log($"{data.MonsterID} 공격범위 안에 플레이어 있음!");
-            if (Time.time - lastAttackTime >= attackCooldown)
+            if (Time.time - lastAttackTime >= data.AttackCooldown)
             {
+                Debug.Log($"{data.MonsterID} 쿨타임: {data.AttackCooldown}, 마지막공격: {lastAttackTime}, 현재시간: {Time.time}");
+                Debug.Log($"{data.MonsterID} Attack() 호출 조건 만족");
                 Attack();
                 lastAttackTime = Time.time;
             }
+        }
+        else
+        {
+            Move(dir.normalized);
         }
 
         if (healthBarGO != null)
@@ -97,10 +99,16 @@ public class MonsterController : BaseController
 
     private void Attack()
     {
+        Debug.Log($"[{data.MonsterID}] Attack() 실행됨");
+
         if (PlayerStats.Instance != null)
         {
-            PlayerStats.Instance.TakeDamage(data.Attack); 
-            Debug.Log($"[{data.MonsterID}] 플레이어에게 {data.Attack} 피해입힘");
+            PlayerStats.Instance.TakeDamage(data.Attack);
+            Debug.Log($"[{data.MonsterID}] 플레이어에게 {data.Attack} 피해!");
+        }
+        else
+        {
+            Debug.LogWarning("PlayerStats.Instance 가 null임!");
         }
     }
 

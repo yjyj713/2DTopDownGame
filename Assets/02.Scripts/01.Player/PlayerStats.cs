@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class PlayerStats : MonoBehaviour
 {
     [SerializeField] private PlayerDataSO playerData;
+    [SerializeField] private Slider playerHPBar;
     [SerializeField] private Slider hpSlider;
     [SerializeField] private Slider mpSlider;
 
@@ -44,15 +45,16 @@ public class PlayerStats : MonoBehaviour
     public void TakeDamage(int damage)
     {
         CurrentHP -= damage;
-        CurrentHP = Mathf.Max(CurrentHP, 0);
-        hpSlider.value = CurrentHP;
-
-        if (CurrentHP == 0)
+        if (CurrentHP <= 0)
         {
+            CurrentHP = 0;
             Debug.Log("플레이어 사망!");
         }
 
         Debug.Log($"HP: {CurrentHP}/{MaxHP}");
+
+        if (playerHPBar != null)
+            playerHPBar.value = CurrentHP;
     }
 
     public void RecoverHP(int amount)

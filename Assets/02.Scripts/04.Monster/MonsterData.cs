@@ -14,4 +14,5 @@ public class MonsterData
     public int MinExp;
     public int MaxExp;
     public int DropItem;
+    public float AttackCooldown;
 }
