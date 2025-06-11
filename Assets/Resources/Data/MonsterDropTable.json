@@ -1,0 +1,35 @@
+[
+  {
+    "MonsterID": "M0001",
+    "DropItems": [
+      { "ItemID": 20000, "DropRate": 0.3 },
+      { "ItemID": 20001, "DropRate": 0.3 }
+    ]
+  },
+  {
+    "MonsterID": "M0002",
+    "DropItems": [
+      { "ItemID": 20000, "DropRate": 0.3 },
+      { "ItemID": 20001, "DropRate": 0.3 }
+    ]
+  },
+{
+    "MonsterID": "M0003",
+    "DropItems": [
+      { "ItemID": 20000, "DropRate": 0.3 },
+      { "ItemID": 20001, "DropRate": 0.3 }
+    ]
+  },
+{
+    "MonsterID": "M0004",
+    "DropItems": [
+      { "ItemID": 20002, "DropRate": 0.2 }
+    ]
+  },
+{
+    "MonsterID": "M0005",
+    "DropItems": [
+      { "ItemID": 20002, "DropRate": 0.2 }
+    ]
+  }
+]

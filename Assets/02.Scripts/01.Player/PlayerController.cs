@@ -11,9 +11,7 @@ public class PlayerController : BaseController
 
     private void Start()
     {
-        Vector3 offset = new Vector3(1, 0, 0);
-        GameObject weapon = Instantiate(weaponPrefab, weaponHolder.position + offset, Quaternion.identity, weaponHolder);
-        weapon.transform.localPosition = new Vector3(2f, 0f, 0f);
+       
     }
 
     protected override void Awake()
@@ -35,6 +33,11 @@ public class PlayerController : BaseController
     private void FixedUpdate()
     {
         Move(movement);
+
+        if (movement.x != 0)
+        {
+            spriteRenderer.flipX = movement.x < 0;
+        }
     }
 
 }

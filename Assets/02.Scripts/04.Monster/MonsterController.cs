@@ -10,6 +10,7 @@ public class MonsterController : BaseController
     public MonsterData Data => data;
     private bool isInitialized = false;
     private Coroutine hitEffectCoroutine;
+    public bool IsDead => isDead;
 
     private void Start()
     {
