@@ -4215,11 +4215,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1258604113141886446, guid: 1a3f9b5a89abe8a4e85f317dd9f783c1, type: 3}
       propertyPath: fireInterval
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5710160648051379239, guid: 1a3f9b5a89abe8a4e85f317dd9f783c1, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6456866451765465943, guid: 1a3f9b5a89abe8a4e85f317dd9f783c1, type: 3}
+      propertyPath: attackRange
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6584857065214912205, guid: 1a3f9b5a89abe8a4e85f317dd9f783c1, type: 3}
       propertyPath: m_LocalPosition.x
