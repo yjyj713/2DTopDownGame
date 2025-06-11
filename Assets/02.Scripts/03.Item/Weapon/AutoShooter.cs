@@ -39,7 +39,7 @@ public class AutoShooter : MonoBehaviour
     private void AdjustFireInterval(int killCount)
     {
         Debug.Log($"[AutoShooter] AdjustFireInterval 호출됨, 킬수: {killCount}");
-        int steps = killCount / 1;
+        int steps = killCount / 5;
         fireInterval = baseInterval * Mathf.Pow(0.9f, steps);
         Debug.Log($"[AutoShooter] 발사간격: {fireInterval:F2}s");
     }
