@@ -20,20 +20,17 @@ public class NewBehaviourScript : MonoBehaviour
 
     private void CreateSlots()
     {
-        foreach (Transform child in slotParent)
-        {
-            Destroy(child.gameObject);
-        }
+        foreach (Transform c in slotParent) Destroy(c.gameObject);
 
         foreach (var data in MonsterDataLoader.MonsterList)
         {
-            var slot = Instantiate(slotPrefabs, slotParent);
-            slot.GetComponent<MonsterSlot>().Init(data, ShowInfo);
+            var go = Instantiate(slotPrefabs, slotParent);
+            go.GetComponent<MonsterSlot>().Init(data, ShowInfo);
         }
     }
     private void ShowInfo(MonsterData data)
     {
-        monsterImage.sprite = data.sprite;
+        monsterImage.sprite = data.Icon;
         nameText.text = data.Name;
         descText.text = data.Description;
     }

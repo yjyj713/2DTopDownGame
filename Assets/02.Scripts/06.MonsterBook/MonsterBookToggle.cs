@@ -6,7 +6,9 @@ public class MonsterBookToggle : MonoBehaviour
 
     public void ToggleBook()
     {
-        if (monsterBookUI != null)
-            monsterBookUI.SetActive(!monsterBookUI.activeSelf);
+        bool open = !monsterBookUI.activeSelf;
+        monsterBookUI.SetActive(open);
+
+        Time.timeScale = open ? 0f : 1f;
     }
 }

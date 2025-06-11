@@ -13,7 +13,12 @@ public class MonsterSlot : MonoBehaviour
     {
         monsterData = data;
         onClickCallback = onClick;
-        icon.sprite = data.sprite;
+
+        if (data.Icon != null)
+            icon.sprite = data.Icon;
+        else
+            Debug.LogWarning($"{data.MonsterID} 아이콘 없음");
+
         GetComponent<Button>().onClick.AddListener(OnClick);
     }
     private void OnClick()

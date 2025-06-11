@@ -17,5 +17,8 @@ public class MonsterData
     public int MaxExp;
     public int DropItem;
     public float AttackCooldown;
-    public Sprite sprite;
+    public string IconName;
+
+    [System.NonSerialized]
+    public Sprite Icon;
 }

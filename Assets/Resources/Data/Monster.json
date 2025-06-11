@@ -15,7 +15,8 @@
       "MinExp": 10,
       "MaxExp": 20,
       "DropItem": 30000,
-      "AttackCooldown": 1.0
+      "AttackCooldown": 1.0,
+      "IconName": "M0001"
     },
     {
       "MonsterID": "M0002",
@@ -32,7 +33,8 @@
       "MinExp": 11,
       "MaxExp": 22,
       "DropItem": 30002,
-      "AttackCooldown": 1.0
+      "AttackCooldown": 1.0,
+      "IconName": "M0002"
     },
     {
       "MonsterID": "M0003",
@@ -49,7 +51,8 @@
       "MinExp": 12,
       "MaxExp": 24,
       "DropItem": 30001,
-      "AttackCooldown": 1.0
+      "AttackCooldown": 1.0,
+      "IconName": "M0003"
     },
     {
       "MonsterID": "M0004",
@@ -66,7 +69,8 @@
       "MinExp": 13,
       "MaxExp": 26,
       "DropItem": 30004,
-      "AttackCooldown": 1.0
+      "AttackCooldown": 1.0,
+      "IconName": "M0004"
     },
     {
       "MonsterID": "M0005",
@@ -83,7 +87,8 @@
       "MinExp": 14,
       "MaxExp": 28,
       "DropItem": 20000,
-      "AttackCooldown": 1.0
+      "AttackCooldown": 1.0,
+      "IconName": "M0005"
     },
     {
       "MonsterID": "M0006",
