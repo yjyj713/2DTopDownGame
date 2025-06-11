@@ -11,14 +11,14 @@ public class DropItem : MonoBehaviour
         switch (itemId)
         {
             case 20000:
-                PlayerStats.Instance.HealHP(50);
+                PlayerStats.Instance.RecoverHP(50);
                 break;
             case 20001:
-                PlayerStats.Instance.HealMP(50);
+                PlayerStats.Instance.RecoverMP(50);
                 break;
             case 20002:
-                PlayerStats.Instance.HealHP(50);
-                PlayerStats.Instance.HealMP(50);
+                PlayerStats.Instance.RecoverHP(50);
+                PlayerStats.Instance.RecoverMP(50);
                 break;
         }
 

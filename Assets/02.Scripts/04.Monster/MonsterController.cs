@@ -6,6 +6,9 @@ public class MonsterController : BaseController
 {
     [SerializeField] private GameObject healthBarPrefab;
 
+    private float attackCooldown = 1.0f;
+    private float lastAttackTime;
+
     private Transform player;
     private MonsterData data;
     private int currentHp;
@@ -55,6 +58,8 @@ public class MonsterController : BaseController
             }
         }
 
+        moveSpeed = data.MoveSpeed;
+
         // 슬라이더 값 설정
         healthSlider.maxValue = data.MaxHP;
         healthSlider.value = currentHp;
@@ -68,11 +73,34 @@ public class MonsterController : BaseController
         if (isDead || player == null) return;
 
         Vector2 dir = player.position - transform.position;
+        float distanceToPlayer = dir.magnitude;
+
         Move(dir.normalized);
+
+        float distance = Vector2.Distance(transform.position, player.position);
+
+        if (distanceToPlayer <= data.AttackRange)
+        {
+            Debug.Log($"{data.MonsterID} 공격범위 안에 플레이어 있음!");
+            if (Time.time - lastAttackTime >= attackCooldown)
+            {
+                Attack();
+                lastAttackTime = Time.time;
+            }
+        }
 
         if (healthBarGO != null)
         {
             healthBarGO.transform.position = transform.position + new Vector3(0, 1f, 0);
+        }
+    }
+
+    private void Attack()
+    {
+        if (PlayerStats.Instance != null)
+        {
+            PlayerStats.Instance.TakeDamage(data.Attack); 
+            Debug.Log($"[{data.MonsterID}] 플레이어에게 {data.Attack} 피해입힘");
         }
     }
 
