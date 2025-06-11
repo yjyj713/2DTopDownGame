@@ -1,3 +1,5 @@
+using UnityEngine;
+using UnityEngine.UI;
 [System.Serializable]
 public class MonsterData
 {
@@ -15,4 +17,5 @@ public class MonsterData
     public int MaxExp;
     public int DropItem;
     public float AttackCooldown;
+    public Sprite sprite;
 }

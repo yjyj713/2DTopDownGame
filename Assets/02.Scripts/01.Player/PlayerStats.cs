@@ -7,6 +7,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private Slider playerHPBar;
     [SerializeField] private Slider hpSlider;
     [SerializeField] private Slider mpSlider;
+    [SerializeField] private GameObject gameOverUI;
 
     public static PlayerStats Instance;
 
@@ -49,6 +50,7 @@ public class PlayerStats : MonoBehaviour
         {
             CurrentHP = 0;
             Debug.Log("플레이어 사망!");
+            GameOver();
         }
 
         Debug.Log($"HP: {CurrentHP}/{MaxHP}");
@@ -56,7 +58,12 @@ public class PlayerStats : MonoBehaviour
         if (playerHPBar != null)
             playerHPBar.value = CurrentHP;
     }
-
+    private void GameOver()
+    {
+        Time.timeScale = 0f;
+        if (gameOverUI != null)
+            gameOverUI.SetActive(true);
+    }
     public void RecoverHP(int amount)
     {
         CurrentHP = Mathf.Min(CurrentHP + amount, MaxHP);
