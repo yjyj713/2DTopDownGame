@@ -20,33 +20,49 @@ public class MonsterPool : MonoBehaviour
         }
     }
 
-    public MonsterController SpawnMonster(string monsterId, Vector3 spawnPos, Transform player)
+    public void PreloadMonsters(Dictionary<string, int> preloadCounts)
     {
-        MonsterController controller;
-
-        if (!poolDict.ContainsKey(monsterId))
-            poolDict[monsterId] = new Queue<MonsterController>();
-
-        if (poolDict[monsterId].Count > 0)
+        foreach (var pair in preloadCounts)
         {
-            controller = poolDict[monsterId].Dequeue();
-            controller.gameObject.SetActive(true);
-            controller.transform.position = spawnPos;
-            controller.Init(MonsterDataLoader.MonsterDict[monsterId], player, false);
-        }
-        else
-        {
-            GameObject prefab = Resources.Load<GameObject>($"Prefabs/Monsters/{monsterId}");
-            if (prefab == null)
+            string id = pair.Key;
+            int count = pair.Value;
+
+            if (!prefabDict.ContainsKey(id))
             {
-                Debug.LogError($"[MonsterPool] Resources.Load 실패: {monsterId} 프리팹 없음");
-                return null;
+                Debug.LogWarning($"[MonsterPool] {id} 프리팹 없음");
+                continue;
             }
 
-            GameObject go = Instantiate(prefab, spawnPos, Quaternion.identity);
-            controller = go.GetComponent<MonsterController>();
-            controller.Init(MonsterDataLoader.MonsterDict[monsterId], player, true);
+            if (!poolDict.ContainsKey(id))
+                poolDict[id] = new Queue<MonsterController>();
+
+            GameObject prefab = prefabDict[id];
+
+            for (int i = 0; i < count; i++)
+            {
+                GameObject go = Instantiate(prefab);
+                go.SetActive(false);
+
+                var controller = go.GetComponent<MonsterController>();
+                poolDict[id].Enqueue(controller);
+            }
+
+            Debug.Log($"[MonsterPool] {id} 몬스터 {count}개 생성 완료");
         }
+    }
+
+    public MonsterController SpawnMonster(string monsterId, Vector3 spawnPos, Transform player)
+    {
+        if (!poolDict.ContainsKey(monsterId) || poolDict[monsterId].Count == 0)
+        {
+            Debug.LogWarning($"[MonsterPool] '{monsterId}' 풀에 몬스터 없음! 새로 생성하지 않음.");
+            return null;
+        }
+
+        var controller = poolDict[monsterId].Dequeue();
+        controller.gameObject.SetActive(true);
+        controller.transform.position = spawnPos;
+        controller.Init(MonsterDataLoader.MonsterDict[monsterId], player, false);
 
         return controller;
     }

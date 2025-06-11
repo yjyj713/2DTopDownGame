@@ -18,6 +18,13 @@ public class MonsterController : BaseController
     }
     public void Init(MonsterData monsterData, Transform playerTransform, bool resetHp = true)
     {
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
+
+        animator.Rebind();
+        animator.Update(0);
+        isDead = false;
+
         data = monsterData;
         player = playerTransform;
         moveSpeed = data.MoveSpeed;
@@ -69,18 +76,15 @@ public class MonsterController : BaseController
     {
         isDead = true;
 
-        if (animator != null)
-        {
-            animator.Play("Dead", -1, 0f); // 직접 애니메이션 강제 재생
-            Debug.Log("[MonsterController] Dead 애니메이션 강제 재생");
-        }
+        // 죽는 애니메이션
+        animator.SetTrigger("IsDead");
 
-        StartCoroutine(DisableAfterDelay(2f));
+        StartCoroutine(ReturnAfterDelay(1.0f));
     }
 
-    private IEnumerator DisableAfterDelay(float delay)
+    private IEnumerator ReturnAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        gameObject.SetActive(false);
+        MonsterPool.Instance.ReturnToPool(this);
     }
 }
