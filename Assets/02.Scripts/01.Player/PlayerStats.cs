@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,9 @@ public class PlayerStats : MonoBehaviour
 
     public int MaxMP { get; private set; }
     public int CurrentMP { get; private set; }
+
+    public event Action<int> OnKillCountChanged;
+    private int killCount;
 
 
     private void Start()
@@ -90,4 +94,12 @@ public class PlayerStats : MonoBehaviour
 
         return 0;
     }
+
+    public void AddKill()
+    {
+        killCount++;
+        Debug.Log($"[PlayerStats] AddKill 호출, 현재 킬수: {killCount}");
+        OnKillCountChanged?.Invoke(killCount);
+    }
+    public int KillCount => killCount;
 }

@@ -144,13 +144,19 @@ public class MonsterController : BaseController
     private void MonsDie()
     {
         isDead = true;
+        Debug.Log($"[{data.MonsterID}] MonsDie() 호출");
 
         // 죽는 애니메이션
         animator.SetTrigger("IsDead");
 
         DropItem();
 
+        if (PlayerStats.Instance != null)
+            PlayerStats.Instance.AddKill();
+
         StartCoroutine(ReturnAfterDelay(1.0f));
+
+
     }
 
     private void DropItem()
