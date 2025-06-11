@@ -1,8 +1,11 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MonsterController : BaseController
 {
+    [SerializeField] private GameObject healthBarPrefab;
+
     private Transform player;
     private MonsterData data;
     private int currentHp;
@@ -11,6 +14,9 @@ public class MonsterController : BaseController
     private bool isInitialized = false;
     private Coroutine hitEffectCoroutine;
     public bool IsDead => isDead;
+
+    private Slider healthSlider;
+    private GameObject healthBarGO;
 
     private void Start()
     {
@@ -35,7 +41,26 @@ public class MonsterController : BaseController
             currentHp = data.MaxHP;
             isInitialized = true;
         }
+
+        // 헬스바 프리팹 인스턴스화 및 슬라이더 연결
+        if (healthBarGO == null)
+        {
+            healthBarGO = Instantiate(healthBarPrefab, transform.position + new Vector3(0, 1f, 0), Quaternion.identity, transform);
+            healthSlider = healthBarGO.GetComponentInChildren<Slider>();
+
+            if (healthSlider == null)
+            {
+                Debug.LogError("HealthBar 안에 Slider 컴포넌트를 찾을 수 없습니다!");
+                return;
+            }
+        }
+
+        // 슬라이더 값 설정
+        healthSlider.maxValue = data.MaxHP;
+        healthSlider.value = currentHp;
+
         Debug.Log($"[{data.MonsterID}] Init 호출됨 - currentHP: {currentHp}, resetHp: {resetHp}");
+
     }
 
     private void Update()
@@ -44,6 +69,11 @@ public class MonsterController : BaseController
 
         Vector2 dir = player.position - transform.position;
         Move(dir.normalized);
+
+        if (healthBarGO != null)
+        {
+            healthBarGO.transform.position = transform.position + new Vector3(0, 1f, 0);
+        }
     }
 
     public void TakeDamage(int damage)
@@ -52,6 +82,8 @@ public class MonsterController : BaseController
 
         currentHp -= damage;
         Debug.Log($"{data.MonsterID} 피격됨 현재 HP: {currentHp}");
+        if (healthSlider != null)
+            healthSlider.value = currentHp;
 
         animator.Play("Hit", -1, 0f);
 
@@ -80,7 +112,32 @@ public class MonsterController : BaseController
         // 죽는 애니메이션
         animator.SetTrigger("IsDead");
 
+        DropItem();
+
         StartCoroutine(ReturnAfterDelay(1.0f));
+    }
+
+    private void DropItem()
+    {
+        if (!MonsterDropLoader.DropTableDict.TryGetValue(data.MonsterID, out var dropList)) return;
+
+        foreach (var drop in dropList)
+        {
+            float rand = Random.Range(0f, 1f);
+            if (rand <= drop.DropRate)
+            {
+                GameObject itemPrefab = Resources.Load<GameObject>($"Prefabs/Items/{drop.ItemID}");
+                if (itemPrefab != null)
+                {
+                    Instantiate(itemPrefab, transform.position, Quaternion.identity);
+                    Debug.Log($"[DropItem] {drop.ItemID} 드롭됨");
+                }
+                else
+                {
+                    Debug.LogWarning($"[DropItem] 프리팹 없음: {drop.ItemID}");
+                }
+            }
+        }
     }
 
     private IEnumerator ReturnAfterDelay(float delay)
