@@ -4213,6 +4213,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1258604113141886446, guid: 1a3f9b5a89abe8a4e85f317dd9f783c1, type: 3}
+      propertyPath: fireInterval
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5710160648051379239, guid: 1a3f9b5a89abe8a4e85f317dd9f783c1, type: 3}
       propertyPath: m_Name
       value: Player
